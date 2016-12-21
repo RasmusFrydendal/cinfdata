@@ -47,7 +47,8 @@ class dataBaseBackend():
     warning3 = diff
     warning4 = plugin
     '''
-    def __init__(self, options, ggs):
+    def __init__(self, options, ggs, host='servcinf-sql', user="cinf_reader",
+                 passwd="cinf_reader", port=3306):
         # From init
         self.o = options
         self.ggs = ggs
@@ -58,10 +59,11 @@ class dataBaseBackend():
         self.plotlist = self.o['left_plotlist'] + self.o['right_plotlist']
 
         # Create MySQL session and cursor
-        self.conn = MySQLdb.connect(host='servcinf-sql',
-                                    user="cinf_reader",
-                                    passwd="cinf_reader",
-                                    db="cinfdata")
+        self.conn = MySQLdb.connect(host=host,
+                                    user=user,
+                                    passwd=passwd,
+                                    db="cinfdata",
+                                    port=port)
         self.cursor = self.conn.cursor()
         self.data = None
 
@@ -238,7 +240,7 @@ class dataBaseBackend():
         if output_id > -1:
             output_string = json.dumps(output)
             query = "UPDATE plot_com_out SET output=%s WHERE id={0}".format(output_id)
-            self.cursor.execute(query, (output_string))
+            self.cursor.execute(query, (output_string,))
             self.conn.commit()
 
         # Restore stdout
