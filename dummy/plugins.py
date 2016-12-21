@@ -42,3 +42,23 @@ class MassSpectraOffset(object):
         self.label_additions['y_right_label_addition'] = message
 
         return self.label_additions
+
+
+class Test47(object):
+    """Very useful plugin"""
+
+    def __init__(self, settings, plot_options, ggs=None):
+        self.settings = settings
+        self.label_additions = {
+            'xlabel_addition': '',
+            'y_left_label_addition': '',
+            'y_right_label_addition': '',
+        }
+
+    def run(self, left, right):
+        """The main run method"""
+        print 'plugin ran ' + self.settings['input']
+        
+        
+        self.label_additions['y_left_label_addition'] = '47'
+        return self.label_additions
