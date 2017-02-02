@@ -21,7 +21,7 @@
 
 include("graphsettings.php");
 include("../common_functions_v2.php");
-$db = std_db();
+$dbi = std_dbi();
 
 # Get the plot type
 $type = $_GET["type"];
@@ -77,6 +77,12 @@ foreach(array('left_plotlist', 'right_plotlist') as $value){
   foreach($$value as $id){
     $options_line .= '&' . $value . '[]=' . $id;
   }
+}
+# ... and debug and dev ...
+foreach(Array('debug', 'dev') as $value){
+    if (isset($_GET[$value])){
+        $options_line .= '&' . $value;
+    }
 }
 # ... and append imageformat to them
 $plot_php_line = 'plot.php?type=' . $type . $options_line . '&image_format=' . 'png';
@@ -194,7 +200,7 @@ if ($matplotlib == 'checked'){
 	  <h3>Sql-statements for this graph, left side:</h3>
 	  <?php
 	     foreach ($left_plotlist as $index){
-	     $latest = latest_sql_row($db, $settings["dateplot" . $index]["query"]);
+	     $latest = latest_sql_row($dbi, $settings["dateplot" . $index]["query"]);
 	     echo("<p><b>Dateplot {$index}:</b><br>");
 	     echo("<b>Query: </b>" . $settings["dateplot" . $index]["query"] . "<br>");
 	     echo("<b>Latest value: </b>{$latest[1]}@" . date("Y-m-d H:i:s", $latest[0]) . "</p>");
@@ -203,7 +209,7 @@ if ($matplotlib == 'checked'){
 	  <h3>Sql-statements for this graph, right side:</h3>
 	  <?php
 	     foreach ($right_plotlist as $index){
-	     $latest = latest_sql_row($db, $settings["dateplot" . $index]["query"]);
+	     $latest = latest_sql_row($dbi, $settings["dateplot" . $index]["query"]);
 	     echo("<p><b>Dateplot {$index}:</b><br>");
 	     echo("<b>Query: </b>" . $settings["dateplot" . $index]["query"] . "<br>");
 	     echo("<b>Latest value: </b>{$latest[1]}@" . date("Y-m-d H:i:s", $latest[0]) . "</p>");
