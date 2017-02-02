@@ -2,20 +2,86 @@
 
 date_default_timezone_set("Europe/Copenhagen");
 
+# Load site settings and determine dev status
+$sitesettings = yaml_parse_file(dirname(__FILE__) . "/sitesettings.yaml");
+$dev = isset($_GET["dev"]);
+$debug = isset($_GET["debug"]);
+
+
 /** Returns a handle to the standard database
-    @return object 
+    @return object
+
+    DEPRECATED
   */
 function std_db($user = "cinf_reader"){
-    //$db = mysql_connect("localhost", "root", "CINF123");  
-    //$db = mysql_connect("localhost", "cinf_reader", "cinf_reader");
-    $db = mysql_connect("servcinf-sql", $user, $user);
-    mysql_select_db("cinfdata",$db);
-    return($db);
+    /* Get standard db connection standard mysql */
+    $error = "The std_db function in common_functions_v2 uses the deprecated " .
+        "(and now unavailable) mysql module. Use the std_dbi function " .
+        "instead, which uses the mysqli module, and port the rest of the " .
+        "code using: " .
+        "http://php.net/manual/en/book.mysqli.php";
+    throw new Exception($error);
 }
 
-function std_dbi($user = "cinf_reader"){
-  $mysqli = new mysqli("servcinf-sql", $user, $user, "cinfdata");
-  return $mysqli;
+
+/** This function is called if an exception bubbles all the way to the surface
+    and will print the exception is pre tags, to make it more readable
+*/
+function pre_exception_handler($exception){
+    echo("<pre>\n");
+    echo((string) $exception);
+    echo("</pre>\n");
+}
+
+// Apply the pre_exception_handler if debug is selected
+if ($debug){
+    set_exception_handler ("pre_exception_handler");
+}
+
+
+/** An error handler to turn warnings into exceptions, so they can be handled */
+function warnings_to_exceptions($errno, $errstr, $errfile, $errline, array $errcontext) {
+    // error was suppressed with the @-operator
+    if (0 === error_reporting()) {
+        return false;
+    }
+    throw new ErrorException($errstr, 0, $errno, $errfile, $errline);
+}
+
+
+/** Returns a handle to the standard database
+    @return object
+  */
+function std_dbi($user = null){
+    /* Get standard db connection mysqli */
+    global $dev, $sitesettings, $warnings_to_exceptions;
+    // Apply default read all db user
+    if (is_null($user)){
+        $user = $sitesettings["db_read_all_user"];
+    }
+    // Form db hoststring depending on environment
+    if ($dev){
+        $hoststring = $sitesettings["dev_db_hostname"] . ":" .
+            $sitesettings["dev_db_port"];
+    } else {
+        $hoststring = $sitesettings["db_hostname"] . ":" .
+            $sitesettings["db_port"];
+    }
+    // Form connection and return
+    set_error_handler("warnings_to_exceptions");
+    ini_set ("html_errors", "1");
+
+    try {
+        $mysqli = new mysqli($hoststring, $user, $user, $sitesettings["db_name"]);
+    } catch (ErrorException $e) {
+        $error = "Unable to connect to a MySQL database using\n" .
+            "hoststring: \"$hoststring\"\nusername: \"$user\"\ndatabase " .
+            "\"{$sitesettings['db_name']}\". The original error/warning was\n";
+        echo("<pre>" . $error . "</pre>");
+        throw $e;
+    }
+    restore_error_handler();
+    return $mysqli;
 }
 
 function single_sql_value($db,$query,$column){
@@ -25,6 +91,9 @@ function single_sql_value($db,$query,$column){
     return($value);
 }
 
+/** Returns the last row of a query
+    @return Array
+  */
 function latest_sql_row($db, $query){
   // Returns the lastest row from the result of the query
   if (strpos($query, " desc") == false){
@@ -33,8 +102,8 @@ function latest_sql_row($db, $query){
   if (strpos($query, " limit ") == false){
     $query .= " limit 1";
   }
-  $result  = mysql_query($query, $db);
-  $row = mysql_fetch_array($result);
+  $result  = mysqli_query($db, $query);
+  $row = mysqli_fetch_array($result);
   return($row);
 }
 
