@@ -15,7 +15,7 @@ foreach (array('left_logscale', 'right_logscale', 'matplotlib', 'small_plot',
 	       'linscale_left_y0', 'as_function_of', 'flip_x', 'linscale_x0',
 	       'linscale_x1', 'linscale_x2', 'linscale_right_y0',
 	       'linscale_right_y1', 'linscale_right_y2',
-	       'diff_right_y') as $value){
+           'diff_right_y', 'dev') as $value){
   $boolean_options .= ',' . $value . ':' . $_GET[$value];
 }
 

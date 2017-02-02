@@ -35,6 +35,9 @@ from StringIO import StringIO
 import traceback
 import cgi
 
+import sitesettings
+
+SITESETTINGS = sitesettings.SITESETTINGS
 
 class dataBaseBackend():
     ''' This class will fetch measurement data and measurement information from the
@@ -58,10 +61,25 @@ class dataBaseBackend():
         self.plotlist = self.o['left_plotlist'] + self.o['right_plotlist']
 
         # Create MySQL session and cursor
-        self.conn = MySQLdb.connect(host='servcinf-sql',
-                                    user="cinf_reader",
-                                    passwd="cinf_reader",
-                                    db="cinfdata")
+        connection_parameters = {
+            'user': SITESETTINGS['db_read_all_user'],
+            'passwd': SITESETTINGS['db_read_all_user'],
+        }
+        if self.o["dev"]:
+            connection_parameters.update({
+                'host': SITESETTINGS['dev_db_hostname'],
+                'port': SITESETTINGS['dev_db_port'],
+                'db': SITESETTINGS['dev_db_name'],
+            })
+        else:
+            connection_parameters.update({
+                'host': SITESETTINGS['db_hostname'],
+                'port': SITESETTINGS['db_port'],
+                'db': SITESETTINGS['db_name'],
+            })
+        if connection_parameters['host'] == 'localhost':
+            connection_parameters['host'] = '127.0.0.1'
+        self.conn = MySQLdb.connect(**connection_parameters)
         self.cursor = self.conn.cursor()
         self.data = None
 

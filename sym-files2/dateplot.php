@@ -48,6 +48,7 @@ $right_logscale    = isset($_GET["right_logscale"])     ? "checked"             
 $left_plotlist     = isset($_GET["left_plotlist"])      ? $_GET["left_plotlist"]  : array();
 $right_plotlist    = isset($_GET["right_plotlist"])     ? $_GET["right_plotlist"] : array();
 $matplotlib        = isset($_GET["matplotlib"])         ? "checked"               : "";
+$dev               = isset($_GET["dev"])                ? "checked"               : "";
 
 # Get the fully initialized version of the settings
 $settings = plot_settings($type, Array("from" => $from, "to" => $to));
@@ -64,10 +65,10 @@ foreach($settings as $key => $value){
 # Generate URL for figure ...
 $options_line = '';
 $options = array('from', 'to',
-		 'left_ymax', 'left_ymin',
-		 'right_ymax', 'right_ymin', 
-		 'left_logscale', 'right_logscale',
-		 'matplotlib');
+'left_ymax', 'left_ymin',
+'right_ymax', 'right_ymin', 
+'left_logscale', 'right_logscale',
+'matplotlib', 'dev');
 # ... add values ...
 foreach($options as $value){
   $options_line .= '&' . $value . '=' . str_replace(' ', '+', $$value);
@@ -77,12 +78,6 @@ foreach(array('left_plotlist', 'right_plotlist') as $value){
   foreach($$value as $id){
     $options_line .= '&' . $value . '[]=' . $id;
   }
-}
-# ... and debug and dev ...
-foreach(Array('debug', 'dev') as $value){
-    if (isset($_GET[$value])){
-        $options_line .= '&' . $value;
-    }
 }
 # ... and append imageformat to them
 $plot_php_line = 'plot.php?type=' . $type . $options_line . '&image_format=' . 'png';

@@ -44,9 +44,11 @@ import matplotlib.pyplot as plt
 
 # Import our own classes
 from databasebackend import dataBaseBackend
-
+import sitesettings
 from graphsettings import graphSettings
 import ourmatplotlib, ourdygraph
+
+SITESETTINGS = sitesettings.SITESETTINGS
 
 
 class Plot():
