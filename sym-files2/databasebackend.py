@@ -39,6 +39,14 @@ import sitesettings
 
 SITESETTINGS = sitesettings.SITESETTINGS
 
+
+def get_mysql_connection(connection_parameters):
+    """Form the mysql connection"""
+    if connection_parameters['host'] == 'localhost':
+        connection_parameters['host'] = '127.0.0.1'
+    return MySQLdb.connect(**connection_parameters)
+
+
 class dataBaseBackend():
     ''' This class will fetch measurement data and measurement information from the
     database.
@@ -60,26 +68,24 @@ class dataBaseBackend():
                              'to': self.o['from_to'][1]}
         self.plotlist = self.o['left_plotlist'] + self.o['right_plotlist']
 
-        # Create MySQL session and cursor
+        # Create MySQL session and cursor, first try main connection settings
         connection_parameters = {
             'user': SITESETTINGS['db_read_all_user'],
             'passwd': SITESETTINGS['db_read_all_user'],
+            'host': SITESETTINGS['db_hostname'],
+            'port': SITESETTINGS['db_port'],
+            'db': SITESETTINGS['db_name'],
         }
-        if self.o["dev"]:
+        try:
+            self.conn = get_mysql_connection(connection_parameters)
+        except MySQLdb.OperationalError:
+            # The if fail, try dev settings
             connection_parameters.update({
                 'host': SITESETTINGS['dev_db_hostname'],
                 'port': SITESETTINGS['dev_db_port'],
                 'db': SITESETTINGS['dev_db_name'],
             })
-        else:
-            connection_parameters.update({
-                'host': SITESETTINGS['db_hostname'],
-                'port': SITESETTINGS['db_port'],
-                'db': SITESETTINGS['db_name'],
-            })
-        if connection_parameters['host'] == 'localhost':
-            connection_parameters['host'] = '127.0.0.1'
-        self.conn = MySQLdb.connect(**connection_parameters)
+            self.conn = get_mysql_connection(connection_parameters)
         self.cursor = self.conn.cursor()
         self.data = None
 

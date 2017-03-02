@@ -48,7 +48,6 @@ $right_logscale    = isset($_GET["right_logscale"])     ? "checked"             
 $left_plotlist     = isset($_GET["left_plotlist"])      ? $_GET["left_plotlist"]  : array();
 $right_plotlist    = isset($_GET["right_plotlist"])     ? $_GET["right_plotlist"] : array();
 $matplotlib        = isset($_GET["matplotlib"])         ? "checked"               : "";
-$dev               = isset($_GET["dev"])                ? "checked"               : "";
 
 # Get the fully initialized version of the settings
 $settings = plot_settings($type, Array("from" => $from, "to" => $to));
@@ -68,7 +67,7 @@ $options = array('from', 'to',
 'left_ymax', 'left_ymin',
 'right_ymax', 'right_ymin', 
 'left_logscale', 'right_logscale',
-'matplotlib', 'dev');
+'matplotlib');
 # ... add values ...
 foreach($options as $value){
   $options_line .= '&' . $value . '=' . str_replace(' ', '+', $$value);
