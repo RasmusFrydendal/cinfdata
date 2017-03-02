@@ -22,7 +22,6 @@
 include("graphsettings.php");
 include("../common_functions_v2.php");
 
-$db = std_db();
 $mysqli = std_dbi();
 $type = $_GET["type"];
 $settings = plot_settings($type);
@@ -33,8 +32,8 @@ if (empty($settings)){
 
 // Get the id-number and timestamp of the newest measurement
 $query = "SELECT id, " . $settings["grouping_column"] . " FROM " . $settings["measurements_table"] . " where type = " . $settings["type"] . " order by time desc limit 1";
-$latest_id = single_sql_value($db,$query,0);
-$latest_time = single_sql_value($db,$query,1);
+$latest_id = single_sql_value($mysqli, $query,0);
+$latest_time = single_sql_value($mysqli, $query,1);
 
 // If graphsettings.xml do not have a specific grouping column setting we will default to "time"
 if(in_array("grouping_column",array_keys($settings)) != "1"){
@@ -106,8 +105,8 @@ function microtime_float()
 
 // Get all available measurements to populate selection boxes
 $query = "SELECT distinct " . $settings["grouping_column"] . ", comment FROM " .  $settings["measurements_table"] . " where type = " . $settings["type"] . " order by time desc, id limit 25000";
-$result  = mysql_query($query,$db);
-  while ($row = mysql_fetch_array($result)){
+$result  = mysqli_query($mysqli, $query);
+  while ($row = mysqli_fetch_array($result)){
     $datelist[] = $row[0];
     $commentlist[] = $row[1];
   }
@@ -125,8 +124,8 @@ $query = "SELECT id, time, " . $settings["label_column"] . " FROM " .  $settings
 // replace \ with \\ in comments (Some setups have bad habits...)
 $query = str_replace("\\","\\\\",$query);
 
-$result  = mysql_query($query,$db);
-while ($row = mysql_fetch_array($result)){
+$result  = mysqli_query($mysqli, $query);
+while ($row = mysqli_fetch_array($result)){
     $individ_idlist[] = $row[0];
     $individ_datelist[] = $row[1];
     $individ_labellist[] = $row[2];
@@ -419,8 +418,8 @@ if (array_key_exists("plugins", $settings))
 	      foreach($plotlist as $id){
 	        echo("<div class=\"infobox\">");
 		$query = "SELECT * from {$settings['measurements_table']} WHERE id=$id";
-		$result = mysql_query($query);
-		$meta = mysql_fetch_array($result);
+		$result = mysqli_query($mysqli, $query);
+		$meta = mysqli_fetch_array($result);
 		if (in_array("mandatory_export_fields", array_keys($settings)) == "1"){
 		  $keys = array_keys($settings["mandatory_export_fields"]);
 		  natsort($keys);
