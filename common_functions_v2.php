@@ -66,20 +66,22 @@ function std_dbi($user = null){
     # Try the main connection
     $hoststring_main = $sitesettings["db_hostname"] . ":" . $sitesettings["db_port"];
     try {
-        $mysqli = new mysqli($hoststring_main, $user, $user, $sitesettings["db_name"]);
+        #$mysqli = new mysqli($hoststring_main, $user, $user, $sitesettings["db_name"]);
+        $mysqli = new mysqli($sitesettings["db_hostname"], $user, $user, $sitesettings["db_name"], $port=$sitesettings["db_port"]);
         restore_error_handler();
         return $mysqli;
     } catch (ErrorException $e) {}
 
     # Try the dev connection settings
     $hoststring = $sitesettings["dev_db_hostname"] . ":" . $sitesettings["dev_db_port"];
+    echo($hoststring);
     // Form connection and return
     try {
-        $mysqli = new mysqli($hoststring, $user, $user, $sitesettings["db_name"]);
+        $mysqli = new mysqli($sitesettings["dev_db_hostname"], $user, $user, $sitesettings["db_name"], $port=$sitesettings["dev_db_port"]);
     } catch (ErrorException $e) {
         $error = "Unable to connect to a MySQL database using\n" .
-            "neither the main hoststring \"$hoststring_main\" nor the\n" .
-            "dev hoststring: \"$hoststring\" and user \"$user\"\ndatabase " .
+            "neither the main host config ${sitesettings['db_hostname']}:${sitesettings['db_port']} nor the\n" .
+            "dev host config: ${sitesettings['dev_db_hostname']}:${sitesettings['dev_db_port']} and user \"$user\"\ndatabase " .
             "\"{$sitesettings['db_name']}\". The original error/warning was\n";
         echo("<pre>" . $error . "</pre>");
         throw $e;
