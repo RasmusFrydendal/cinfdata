@@ -7,7 +7,7 @@ echo(html_header());
 echo("<script src=\"sortable-0.5.0/js/sortable.min.js\"></script>\n" .
      "<link rel=\"stylesheet\" href=\"sortable-0.5.0/css/sortable-theme-finder.css\" />");
 
-$db = std_db();
+$dbi = std_dbi();
 
 function file_element($file){
   $bad_names = Array("graphsettings.xml");
@@ -82,10 +82,10 @@ $max_percent = 0;
 $max_percent_name = "";
 # Get tables status
 $query = "show table status";
-$result  = mysql_query($query, $db);
+$result  = mysqli_query($dbi, $query);
 $to_output = Array();
 # Loop over the tables and calculate size and find max etc.
-while ($row = mysql_fetch_array($result)){
+while ($row = mysqli_fetch_array($result)){
   $row_sum = $row["Data_length"] + $row["Index_length"];
   $sum_size += $row_sum;
   $fraction_of_index = (float)$row['Auto_increment'] / (float)$max_index * 100.0;

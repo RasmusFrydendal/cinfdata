@@ -1,25 +1,25 @@
 <?php
 include("../common_functions_v2.php");
-$db = std_db();
+$dbi = std_dbi();
 
 // Get current pressure
 $query = "SELECT unix_timestamp(time), pressure FROM pressure_xrdgas_asg order by time desc limit 1";
-$result  = mysql_query($query,$db);  
-$row = mysql_fetch_array($result);
+$result  = mysqli_query($dbi, $query);
+$row = mysqli_fetch_array($result);
 $pressure_asg_time = $row[0];
 $current_pressure_asg = $row[1];
 
 // Get current pressure
 $query = "SELECT unix_timestamp(time), pressure FROM pressure_xrdgas_wrg order by time desc limit 1";
-$result  = mysql_query($query,$db);  
-$row = mysql_fetch_array($result);
+$result  = mysqli_query($dbi, $query);  
+$row = mysqli_fetch_array($result);
 $pressure_wrg_time = $row[0];
 $current_pressure_wrg = $row[1];
 
 // Get current pressure
 $query = "SELECT unix_timestamp(time), pressure FROM pressure_xrdgas_wrgms order by time desc limit 1";
-$result  = mysql_query($query,$db);  
-$row = mysql_fetch_array($result);
+$result  = mysqli_query($dbi, $query);  
+$row = mysqli_fetch_array($result);
 $pressure_wrgms_time = $row[0];
 $current_pressure_wrgms = $row[1];
 

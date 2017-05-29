@@ -2,7 +2,7 @@
 
 include("graphsettings.php");
 include("../common_functions_v2.php");
-$db = std_db();
+$dbi = std_dbi();
 
 echo(html_header());
 ?>
@@ -22,8 +22,8 @@ echo("</thead>\n\n");
 echo("<tbody>\n");
 
 $query = "select id, codename, description from dateplots_descriptions order by id";
-$result  = mysql_query($query, $db);
-while ($row = mysql_fetch_array($result)){
+$result  = mysqli_query($dbi, $query);
+while ($row = mysqli_fetch_array($result)){
   echo("<tr>");
   echo('<td>' . $row[0] . '</td>');
   echo('<td>' . $row[1] . '</td>');
