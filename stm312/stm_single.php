@@ -30,8 +30,8 @@ right_float_menu($menu, 6);
 # Settings start
 $image_apache_dir = "../stmimages";
 $image_real_dir = "/u/data1/stm312/stm/Images";
-$db = std_db();
-mysql_set_charset('utf8', $db);
+$dbi = std_dbi();
+mysqli_set_charset($dbi, 'utf8');
 # Settings end
 
 $file = $_GET["file"];
@@ -151,11 +151,11 @@ function myeval($operator, $val1, $val2){
 }
 
 $query = "SELECT * from stm312_stmimages WHERE relative_path=\"$month/$file\" ORDER BY nr ASC";
-$result = mysql_query($query, $db);
+$result = mysqli_query($dbi, $query);
 
-$number_of_images = mysql_num_rows($result);
+$number_of_images = mysqli_num_rows($result);
 
-while ($row = mysql_fetch_array($result)){
+while ($row = mysqli_fetch_array($result)){
   if ($row['nr'] == 1){
     print_single_stmfile_top($row, $number_of_images);
   }

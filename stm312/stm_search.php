@@ -26,8 +26,8 @@ echo(html_header() . "\n");
 $image_real_dir = "/u/data1/stm312/stm/Images";
 
 # Create data base connection
-$db = std_db();
-mysql_set_charset('utf8', $db);
+$dbi = std_dbi();
+mysqli_set_charset($dbi, 'utf8');
 
 # Create right floating menu
 $menu = Array("Overview" => "stm_overview.php",
@@ -184,8 +184,8 @@ $criteria_string = implode(" AND ", $criteria);
 # If requested, make sure there are thumbnails
 if ($preview){
   $query = "SELECT relative_path, thumbnail_path FROM stm312_stmimages WHERE $criteria_string GROUP BY relative_path";
-  $result = mysql_query($query, $db);
-  while ($row = mysql_fetch_array($result)){
+  $result = mysqli_query($dbi, $query);
+  while ($row = mysqli_fetch_array($result)){
     if(!file_exists($row[1])){
       shell_exec("python stm_parse.py --thumbs --file $image_real_dir/{$row[0]} 2>&1");
     }
@@ -195,12 +195,12 @@ if ($preview){
 $headers = Array("id" => "Id", "current" => "Current [nA]",
 		 "time" => "Date time", "sample" => "Sample", "title" => "Title");
 $query = "SELECT * FROM stm312_stmimages WHERE {$criteria_string} ORDER BY time DESC";
-$result = mysql_query($query, $db);
+$result = mysqli_query($dbi, $query);
 echo("\n      <!-- RESULTS -->\n" .
      "      <div class=\"stm_table\">\n" .
      "      <table>\n");
 $count = 0;
-while ($row = mysql_fetch_array($result)){
+while ($row = mysqli_fetch_array($result)){
   if ($count % 10 == 0){
     output_item(null);
   }

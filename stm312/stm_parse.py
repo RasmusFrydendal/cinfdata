@@ -59,13 +59,17 @@ import struct
 import numpy as np
 from optparse import OptionParser
 
+import sitesettings
+
+SITESETTINGS = sitesettings.SITESETTINGS
+
 # set HOME environment variable to a directory the httpd server can write to
 import os
 if os.getuid() == 48:  # 48 is Apache
     import sys
-    os.environ['HOME'] = '/var/www/cinfdata/figures'
+    os.environ['HOME'] = os.path.join(SITESETTINGS.deployment_root, 'figures')
     # System-wide ctypes cannot be run by apache... strange...
-    sys.path.insert(1, '/var/www/cinfdata')
+    sys.path.insert(1, SITESETTINGS.deployment_root)
 
 import matplotlib
 matplotlib.use('Agg')

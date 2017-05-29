@@ -25,7 +25,7 @@ echo(html_header());
 # Settings
 #$source_path = "/u/data1/stm312/stm/Images/";
 $rows = 5;
-$db = std_db();
+$dbi = std_dbi();
 
 /* Form an array of dirs and years. */
 $dirs = Array();
@@ -35,8 +35,8 @@ $bad_file_names = Array();
 
 # Get years and dirs from database
 $query = "SELECT DISTINCT relative_path from stm312_stmimages";
-$result = mysql_query($query, $db);
-while ($row = mysql_fetch_array($result)){
+$result = mysqli_query($dbi, $query);
+while ($row = mysqli_fetch_array($result)){
   $split = explode("/", $row[0]);
   if (preg_match("/^([0-9]{4,4})_([0-9]{2,2})$/" , $split[0], $matches) and count($split) == 2){
     $dirs[] = $matches[0];
