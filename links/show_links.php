@@ -1,15 +1,15 @@
 <?php
 include("../common_functions_v2.php");
 include("graphsettings.php");
-$db = std_db();
+$dbi = std_dbi();
 
 echo(html_header());
 
 $query = "SELECT id,url,comment FROM short_links ORDER BY ID DESC"; 
-$result = mysql_query($query,$db);
+$result = mysqli_query($dbi, $query);
 echo("<table border='1' class=\"links\">"); 
 echo("<tr><td><b>Id</b></td><td><b>Comment</b></td><td><b>Link</b></td></tr>"); 
-while($row = mysql_fetch_array($result)) { 
+while($row = mysqli_fetch_array($result)) { 
   echo("<tr><td>"); 
   echo($row['id']); 
   echo("</td><td>"); 
