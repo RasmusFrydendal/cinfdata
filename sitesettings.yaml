@@ -11,3 +11,6 @@ db_read_all_user: cinf_reader
 dev_db_hostname: localhost
 dev_db_port: 9999
 dev_db_name: cinfdata
+
+# Deployment data
+deployment_root: /home/kenni/www/cinfdata
