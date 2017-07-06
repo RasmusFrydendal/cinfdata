@@ -221,7 +221,7 @@ function html_header_normal($root, $title, $includehead, $charset, $width, $html
   $header = $header . "<html>\n";
   $header = $header . "  <head>\n";
   $header = $header . "    <meta http-equiv=\"Content-Type\" content=\"text/html; charset={$charset}\">\n";
-  $header = $header . "    <title>SurfCat data logging</title>\n";
+  $header = $header . "    <title>HP Now data logging</title>\n";
   $header = $header . "    <link rel=\"StyleSheet\" href=\"{$root}css/style.css\" type=\"text/css\" media=\"screen\">\n";
   if ($root == "../"){
     # $header = $header . "    <script type=\"text/javascript\" src=\"dygraph/dygraph-dev.js\"></script>\n";
@@ -237,9 +237,9 @@ function html_header_normal($root, $title, $includehead, $charset, $width, $html
   $header = $header . "    <div class=\"container\" $width>\n";
   $header = $header . "    <div class=\"caption\">\n";
   $header = $header . "      {$title}\n";
-  $header = $header . "      <a href=\"/\"><img class=\"logo\" src=\"{$root}images/cinf_logo_beta_greek.png\" alt=\"CINF data viewer\"></a>\n";
+  $header = $header . "      <a href=\"/cinfdata/\"><img class=\"logo\" src=\"{$root}images/cinf_logo_beta_greek.png\" alt=\"HP Now data viewer\"></a>\n";
   $header = $header . "        <div class=\"header_utilities\">\n";
-  $header = $header . "          <a class=\"header_links\" href=\"https://cinfwiki.fysik.dtu.dk/cinfwiki/Software/DataWebPageUserDocumentation\">Help</a><br>\n";
+  #$header = $header . "          <a class=\"header_links\" href=\"https://cinfwiki.fysik.dtu.dk/cinfwiki/Software/DataWebPageUserDocumentation\">Help</a><br>\n";
   $header = $header . "          <a class=\"header_links\" href=\"test_configuration_file.php\">Config</a>\n";
   $header = $header . "        </div>\n";
   $header = $header . "    </div>\n";
@@ -254,7 +254,7 @@ function header_v2(){
   $header = $header . "<!DOCTYPE HTML PUBLIC \"-//W3C//DTD HTML 4.01 Transitional//EN\" \"http://www.w3.org/TR/html4/loose.dtd\">";
   $header = $header . "<html>\n";
   $header = $header . "  <head>\n";
-  $header = $header . "    <title>SurfCat data logging</title>\n";
+  $header = $header . "    <title>HP Now data logging</title>\n";
   $header = $header . "    <link rel=\"StyleSheet\" href=\"../css/style.css\" type=\"text/css\" media=\"screen\">\n";
   $header = $header . "  </head>\n";
   $header = $header . "  <body>\n";
@@ -262,7 +262,7 @@ function header_v2(){
   $header = $header . "      <div class=\"caption\">Data viewer\n";
   $header = $header . "        <a href=\"/\"><img class=\"logo\" src=\"../images/cinf_logo_beta_greek.png\"></a>\n";
   $header = $header . "        <div class=\"header_utilities\">\n";
-  $header = $header . "          <a class=\"header_links\" href=\"https://cinfwiki.fysik.dtu.dk/cinfwiki/Software/DataWebPageUserDocumentation\">Help</a><br>\n";
+  #$header = $header . "          <a class=\"header_links\" href=\"https://cinfwiki.fysik.dtu.dk/cinfwiki/Software/DataWebPageUserDocumentation\">Help</a><br>\n";
   $header = $header . "          <a class=\"header_links\" href=\"test_configuration_file.php\">Config</a>\n";
   $header = $header . "        </div>\n";
   $header = $header . "      </div>\n";
@@ -302,7 +302,7 @@ function html_footer_v2(){
 
 function html_code_header($file){
     $header = "";
-    $header = $header . "<head><title>SurfCat data logging</title>\n";
+    $header = $header . "<head><title>HP Now data logging</title>\n";
     $header = $header . "<link rel=\"StyleSheet\" href=\"../css/screen.css\" type=\"text/css\" media=\"screen\">\n";
     $header = $header . "</head>\n";
     $header = $header . "<body>\n";
@@ -331,7 +331,7 @@ function html_header_x($root, $title, $includehead, $charset, $width, $html5){
   $header = $header . "<html>\n";
   $header = $header . "  <head>\n";
   $header = $header . "    <meta http-equiv=\"Content-Type\" content=\"text/html; charset={$charset}\">\n";
-  $header = $header . "    <title>SurfCat data logging</title>\n";
+  $header = $header . "    <title>HP Now data logging</title>\n";
   $header = $header . "    <link rel=\"StyleSheet\" href=\"{$root}css/style.css\" type=\"text/css\" media=\"screen\">\n";
   if ($root == "../"){
     #$header = $header . "    <script type=\"text/javascript\" src=\"dygraph/dygraph-dev.js\"></script>\n";    

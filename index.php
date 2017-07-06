@@ -29,7 +29,7 @@ if ($debug){
 
 
 include("common_functions_v2.php");
-echo(html_header($root="", $title="Data logged at <strike>CINF</strike> SurfCat", $includehead="",
+echo(html_header($root="", $title="Data logged at HP Now Headquarters", $includehead="",
 		 $charset="UTF-8", $width=null, $html5=true));
 
 #$g = simplexml_load_file("index.xml");

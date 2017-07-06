@@ -656,7 +656,7 @@ window.onload = function () {
 
     // Define variables, wsuri is websocket uri
     var key, webSocket,
-        wsuri = "wss://cinf-wsserver.fysik.dtu.dk:9002";
+        wsuri = "wss://192.168.1.114:9002";
 
     // Log the variables input from php
     log_input();

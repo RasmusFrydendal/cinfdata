@@ -104,11 +104,12 @@ function microtime_float()
 }
 
 // Get all available measurements to populate selection boxes
-$query = "SELECT distinct " . $settings["grouping_column"] . ", comment FROM " .  $settings["measurements_table"] . " where type = " . $settings["type"] . " order by time desc, id limit 25000";
+$query = "SELECT distinct " . $settings["grouping_column"] . ", comment, power_supply_channel, id FROM " .  $settings["measurements_table"] . " where type = " . $settings["type"] . " order by time desc, id limit 25000";
+
 $result  = mysqli_query($mysqli, $query);
   while ($row = mysqli_fetch_array($result)){
     $datelist[] = $row[0];
-    $commentlist[] = $row[1];
+    $commentlist[] = $row[2] . ': ' . $row[1] ;
   }
 
 // $chosen_group is the list of timestamps that is currently active. This is either the timestamplist from the url or the latest measurement
