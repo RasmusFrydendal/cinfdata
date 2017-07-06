@@ -2,7 +2,7 @@
 # Site settings for this cinfdata instance
 
 # Database setings
-db_hostname: servcinf-sql
+db_hostname: localhost
 db_port: 3306
 db_name: cinfdata
 db_read_all_user: cinf_reader
